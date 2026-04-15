@@ -332,6 +332,11 @@ export default function HomePage() {
   if (!team) {
     return (
       <main className="min-h-screen bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800 p-6 text-white">
+          <div className="mx-auto mb-4 max-w-2xl">
+      <div className="rounded-2xl border border-yellow-300 bg-yellow-100 px-4 py-3 text-center text-sm font-semibold text-yellow-900 shadow">
+        🧪 TEST OMGEVING — Overschie
+      </div>
+    </div>
         <div className="mx-auto mt-10 max-w-md rounded-3xl border border-white/10 bg-white/10 p-6 shadow-2xl backdrop-blur">
           <div className="mb-6">
             <p className="text-sm uppercase tracking-[0.2em] text-zinc-300">Speurtocht</p>
@@ -376,7 +381,12 @@ export default function HomePage() {
     );
   }
 
-  const mapsLink = getGoogleMapsLink(currentLocation.name, currentLocation.lat, currentLocation.lng);
+  const mapsLink = getGoogleMapsLink(
+  currentLocation.name,
+  currentLocation.lat,
+  currentLocation.lng,
+  currentLocation.mapsQuery
+);
 
   return (
     <main className="min-h-screen bg-gradient-to-b from-zinc-100 via-white to-zinc-100 p-4 sm:p-6">
@@ -453,6 +463,15 @@ export default function HomePage() {
                 >
                   {isCheckingLocation ? "Locatie controleren..." : "Ik ben aangekomen"}
                 </button>
+                <button
+  className="rounded-2xl border border-dashed border-zinc-400 px-5 py-4 font-medium text-zinc-700"
+  onClick={() => {
+    setIsAtLocation(true);
+    showStatus("Opdracht handmatig ontgrendeld.", "warning");
+  }}
+>
+  Opdracht ontgrendelen
+</button>
               </div>
 
               {distance !== null && (

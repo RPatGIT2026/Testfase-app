@@ -1,6 +1,7 @@
 export type LocationItem = {
   id: string;
   name: string;
+  mapsQuery: string;
   lat?: number;
   lng?: number;
   radiusMeters?: number;
@@ -9,55 +10,50 @@ export type LocationItem = {
 };
 
 export const LOCATIONS: Record<string, LocationItem> = {
-  berkebrom: {
-    id: "berkebrom",
-    name: "Eetcafé In den Berkebrom",
-    lat: 51.9516,
-    lng: 4.4337,
-    radiusMeters: 100,
+  lidl: {
+    id: "lidl",
+    name: "Lidl Overschie",
+    mapsQuery: "Lidl Burgemeester Baumannlaan 195 Rotterdam",
+    radiusMeters: 150,
     challenge: "Maak hier een korte teamselfie-video van 10 seconden.",
   },
   grotekerk: {
     id: "grotekerk",
     name: "Grote Kerk Overschie",
-    lat: 51.9523,
-    lng: 4.4347,
-    radiusMeters: 100,
+    mapsQuery: "Overschiese Dorpsstraat 95 Rotterdam",
+    radiusMeters: 150,
     challenge:
       "Laat 1 teamlid een speech van 15 seconden geven alsof hij burgemeester is.",
   },
   museum: {
     id: "museum",
     name: "Museum Overschie",
-    lat: 51.9530,
-    lng: 4.4355,
-    radiusMeters: 100,
+    mapsQuery: "Overschiese Dorpsstraat 136 Rotterdam",
+    radiusMeters: 150,
     challenge:
       "Maak een video waarin jullie doen alsof jullie een museumrondleiding geven.",
   },
   halte: {
     id: "halte",
     name: "Bibliotheek Overschie / De Halte",
-    lat: 51.9537,
-    lng: 4.4361,
-    radiusMeters: 100,
+    mapsQuery: "Hoge Schiehof 39 Rotterdam",
+    radiusMeters: 150,
     challenge:
       "Neem een video op waarin jullie allemaal tegelijk 1 boek aanbevelen.",
   },
-  petrus: {
-    id: "petrus",
-    name: "Petrus' Bandenkerk",
-    lat: 51.9544,
-    lng: 4.4370,
+  eind: {
+    id: "eind",
+    name: "Lidl Overschie",
+    mapsQuery: "Lidl Burgemeester Baumannlaan 195 Rotterdam",
     isFinal: true,
   },
 };
 
 export const TEAM_ROUTES: Record<number, string[]> = {
-  1: ["berkebrom", "grotekerk", "museum", "halte", "petrus"],
-  2: ["grotekerk", "museum", "halte", "berkebrom", "petrus"],
-  3: ["museum", "halte", "berkebrom", "grotekerk", "petrus"],
-  4: ["halte", "berkebrom", "grotekerk", "museum", "petrus"],
+  1: ["lidl", "grotekerk", "museum", "halte", "eind"],
+  2: ["grotekerk", "museum", "halte", "lidl", "eind"],
+  3: ["museum", "halte", "lidl", "grotekerk", "eind"],
+  4: ["halte", "lidl", "grotekerk", "museum", "eind"],
 };
 
 export const TEAM_LABELS: Record<number, string> = {
@@ -111,10 +107,22 @@ export function getDistanceInMeters(
   return R * c;
 }
 
-export function getGoogleMapsLink(name: string, lat?: number, lng?: number) {
+export function getGoogleMapsLink(
+  name: string,
+  lat?: number,
+  lng?: number,
+  mapsQuery?: string
+) {
+  if (mapsQuery) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      mapsQuery
+    )}`;
+  }
+
   if (lat && lng) {
     return `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
   }
+
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name)}`;
 }
 
